@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clone Space</string>
+    <string name="tab_phone">On this phone</string>
+    <string name="tab_clones">Clones</string>
+    <string name="search">Search apps</string>
+    <string name="show_system">System apps</string>
+    <string name="clone">Clone</string>
+    <string name="open">Open</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="menu_how">How this works</string>
+    <string name="stop_waiting">Stop waiting</string>
+    <string name="how_title">Clones on this phone</string>
+    <string name="how_body">A clone is another copy of an app, installed beside it. Each copy has its own name, package, and data. The original app stays installed and unchanged.\n\nYou can make more than one clone of the same app. A clone starts empty: you sign in again inside that copy.\n\nSome apps look up their own package name and refuse to run. Banking apps, and some messengers and games, do this. Clone Space does not try to hide the new name from the app.</string>
+    <string name="allow_title">Allow installs</string>
+    <string name="allow_body">Android installs each clone the way it installs any other app. Turn on Allow from this source for Clone Space. You only need to do this once.</string>
+    <string name="allow_continue">Continue</string>
+    <string name="remove_title">Remove this clone?</string>
+    <string name="remove_body">%1$s and its data will be deleted. The original app stays installed.</string>
+    <string name="empty_apps">No apps match.</string>
+    <string name="empty_clones">No clones yet. A clone you create is installed on this phone, next to the original app.</string>
+    <string name="from_app">From %1$s</string>
+    <string name="no_screen">This clone has no screen to open.</string>
+    <string name="installed_banner">%1$s is installed.</string>
+    <string name="removed_banner">%1$s was removed.</string>
+    <string name="install_failed">Couldn\'t install the clone.</string>
+    <string name="preparing">Preparing %1$s…</string>
+    <string name="installing">Installing %1$s…</string>
+    <string name="removing">Removing %1$s…</string>
+    <plurals name="clone_count">
+        <item quantity="one">%d clone</item>
+        <item quantity="other">%d clones</item>
+    </plurals>
+</resources>
