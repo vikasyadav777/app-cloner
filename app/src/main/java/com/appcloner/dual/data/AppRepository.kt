@@ -11,7 +11,7 @@ object AppRepository {
     fun load(context: Context): List<PhoneApp> {
         val pm = context.packageManager
         val launcher = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
-        val resolved = pm.queryIntentActivities(launcher, PackageManager.MATCH_ALL)
+        val resolved = pm.queryIntentActivities(launcher, PackageManager.MATCH_DEFAULT_ONLY)
         return resolved.mapNotNull { resolve ->
             val info = resolve.activityInfo?.applicationInfo ?: return@mapNotNull null
             val packageName = info.packageName

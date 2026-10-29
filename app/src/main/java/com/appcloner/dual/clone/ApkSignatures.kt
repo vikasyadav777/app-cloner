@@ -19,7 +19,7 @@ internal object ApkSignatures {
             .setInputApk(input)
             .setOutputApk(output)
             .setMinSdkVersion(minSdk)
-            .setV1SigningEnabled(false)
+            .setV1SigningEnabled(true)
             .setV2SigningEnabled(true)
             .setV3SigningEnabled(true)
             .setAlignmentPreserved(true)

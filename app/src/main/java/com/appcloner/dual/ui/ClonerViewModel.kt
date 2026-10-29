@@ -138,8 +138,11 @@ class ClonerViewModel(application: Application) : AndroidViewModel(application) 
             val directory = File(app.cacheDir, "clone-work/${phoneApp.packageName.hashCode().toUInt()}")
             try {
                 val (newPackage, number) = withContext(Dispatchers.IO) {
-                    val installed = app.packageManager.getInstalledApplications(0).map { it.packageName }.toSet()
-                    CloneNames.next(phoneApp.packageName, installed)
+                    val reserved = CloneIndex.load(app)
+                        .filter { it.sourcePackage == phoneApp.packageName }
+                        .map { it.clonePackage }
+                        .toSet()
+                    CloneNames.next(app.packageManager, phoneApp.packageName, reserved)
                 }
                 val label = "${phoneApp.label.ifBlank { phoneApp.packageName }} $number"
                 _ui.update { it.copy(busy = app.getString(R.string.preparing, label), banner = null) }
