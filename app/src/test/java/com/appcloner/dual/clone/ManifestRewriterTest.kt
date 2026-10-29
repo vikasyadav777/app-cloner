@@ -150,6 +150,39 @@ class ManifestRewriterTest {
         assertFalse(hasDataDescriptor(output))
     }
 
+    @Test
+    fun storedBytecodeBundleIsAligned() {
+        val work = File("build/rewriter-bundle-align").apply {
+            deleteRecursively()
+            mkdirs()
+        }
+        val input = File(work, "in.apk")
+        val output = File(work, "out.apk")
+        val pad = ByteArray(1) { 1 }
+        val bundle = ByteArray(64) { 9 }
+        ZipOutputStream(input.outputStream()).use { zip ->
+            val padEntry = ZipEntry("pad.bin")
+            padEntry.method = ZipEntry.STORED
+            padEntry.size = pad.size.toLong()
+            padEntry.compressedSize = pad.size.toLong()
+            padEntry.crc = CRC32().apply { update(pad) }.value
+            zip.putNextEntry(padEntry)
+            zip.write(pad)
+            zip.closeEntry()
+            val bundleEntry = ZipEntry("assets/index.android.bundle")
+            bundleEntry.method = ZipEntry.STORED
+            bundleEntry.size = bundle.size.toLong()
+            bundleEntry.compressedSize = bundle.size.toLong()
+            bundleEntry.crc = CRC32().apply { update(bundle) }.value
+            zip.putNextEntry(bundleEntry)
+            zip.write(bundle)
+            zip.closeEntry()
+        }
+        AlignedZip.repack(input, output, emptyMap())
+        assertEquals(0L, dataOffset(output, "assets/index.android.bundle") % 4)
+        assertEquals(0L, dataOffset(output, "pad.bin") % 4)
+    }
+
     private fun readArscPackage(arsc: ByteArray): String {
         var pos = u16(arsc, 2)
         val end = minOf(u32(arsc, 4), arsc.size)

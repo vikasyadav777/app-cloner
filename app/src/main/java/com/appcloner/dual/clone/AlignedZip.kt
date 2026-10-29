@@ -12,9 +12,9 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 /**
- * Rewrites an APK zip without data descriptors. resources.arsc is stored and
- * 4-byte aligned, and stored native libraries are 16 KB aligned, which Android's
- * package installer requires.
+ * Rewrites an APK zip without data descriptors. Every stored entry is 4-byte
+ * aligned, which Hermes needs for the uncompressed JS bundle and which Android
+ * needs for resources.arsc. Stored native libraries are 16 KB aligned.
  */
 internal object AlignedZip {
     private const val LOCAL = 0x04034b50L
@@ -70,11 +70,7 @@ internal object AlignedZip {
 
     private fun alignFor(name: String, method: Int): Int {
         if (method != ZipEntry.STORED) return 1
-        return when {
-            name == "resources.arsc" -> ALIGN_ARSC
-            name.endsWith(".so") -> ALIGN_SO
-            else -> 1
-        }
+        return if (name.endsWith(".so")) ALIGN_SO else ALIGN_ARSC
     }
 
     private fun payloadFor(
